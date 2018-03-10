@@ -27,6 +27,28 @@ def event(event_id):
         return 0
 
 # return emotion for a given event and location
+@app.route("/", methods=['POST'])
+def saveEmotion():
+    fields = ['timestamp', 'event', 'angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+
+    for field in fields:
+        if not request.json or not field in request.json:
+            response = jsonify({"error": "Bad request", "code": "400", "message": "Field missing, or bad format!"}), 400
+            make_response(response)
+            return response
+
+    JSON = request.json
+    repo.create(JSON['timestamp'], JSON['event'],JSON['angry'],JSON['disgust'],JSON['fear'],
+                JSON['happy'], JSON['sad'], JSON['surprise'], JSON['neutral'])
+
+    response = jsonify(JSON), 200
+    response = make_response(response)
+    response.headers['Access-Control-Allow-Origin'] = "*"
+    response.headers['content-type'] = "application/json"
+    return response
+
+
+# return emotion for a given event and location
 @app.route("/emotion", methods=['GET'])
 def getEmotionForEventAndLocation():
 
@@ -43,6 +65,5 @@ def getEmotionForEventAndLocation():
     response.headers['content-type'] = "application/json"
     return response
 
-
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=4444)

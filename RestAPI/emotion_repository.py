@@ -6,6 +6,13 @@ DB_NAME = 'sample.db'
 
 db = sqlite3.connect(DB_PATH + DB_NAME)
 
+def create(timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral):
+    params = [timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral]
+    queryString = 'INSERT INTO stuffToPlot(timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral) VALUES(?,?,?,?,?,?,?,?,?)'
+    cursor = db.cursor()
+    cursor.execute(queryString, params)
+
+
 #def JSONifyCursor(cursor):
 
 def fetchAll(location, event, fromEpoch, toEpoch):
@@ -33,6 +40,3 @@ def fetchAll(location, event, fromEpoch, toEpoch):
 if __name__ == "__main__":
     json_output = json.dumps(fetchAll(None,'Jurassic Park',None,None))
     print(json_output)
-
-#def create_table():
-#    c.execute("CREATE TABLE IF NOT EXISTS stuffToPlot(timestamp TEXT, event TEXT, location TEXT, angry  REAL, disgust  REAL, fear  REAL, happy  REAL, sad  REAL, surprise  REAL, neutral  REAL)")
