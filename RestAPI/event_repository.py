@@ -44,7 +44,7 @@ if __name__ == "__main__":
     #save('VUE')
     #save('GALAXY')
     print(getById(1))
-    print(getById(2))
+    #print(getById(2))
     #print ('After deleting id = 1:')
     #delete(1)
     #print(getById(1))
