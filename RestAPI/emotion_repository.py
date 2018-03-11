@@ -11,6 +11,7 @@ def create(timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral
     queryString = 'INSERT INTO stuffToPlot(timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral) VALUES(?,?,?,?,?,?,?,?,?)'
     cursor = db.cursor()
     cursor.execute(queryString, params)
+    db.commit()
 
 
 #def JSONifyCursor(cursor):
