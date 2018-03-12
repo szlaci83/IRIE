@@ -21,7 +21,15 @@ def getById(id):
     queryString = 'SELECT rowid, name FROM location WHERE id = ?'
     cursor = db.cursor()
     cursor.execute(queryString, [int(id)])
-    return cursor.fetchone()
+    r = [dict((cursor.description[i][0], value) for i, value in enumerate(row)) for row in cursor.fetchall()]
+    return r
+
+def fetchAll():
+    queryString = 'SELECT rowid, name FROM location'
+    cursor = db.cursor()
+    cursor.execute(queryString)
+    r = [dict((cursor.description[i][0], value) for i, value in enumerate(row)) for row in cursor.fetchall()]
+    return r
 
 def save(name):
     queryString = 'INSERT INTO location(name) VALUES(?)'
