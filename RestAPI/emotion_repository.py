@@ -6,6 +6,8 @@ DB_NAME = 'sample.db'
 
 db = sqlite3.connect(DB_PATH + DB_NAME)
 
+#TODO: add create table if not exist
+
 def create(timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral):
     params = [timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral]
     queryString = 'INSERT INTO stuffToPlot(timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral) VALUES(?,?,?,?,?,?,?,?,?)'
