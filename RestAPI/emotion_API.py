@@ -61,34 +61,29 @@ def eventFetchAll():
         event_repo.create()
         return addHeader(event_repo.save(request.json['name']), 200)
 
-# create emotion
-@app.route("/", methods=['POST'])
-def saveEmotion():
-    fields = ['timestamp', 'event', 'angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+# create emotion and return emotion for a given event and location, event for a given time range
+@app.route("/emotion", methods=['GET', 'POST'])
+def emotion():
+    if request.method == 'GET':
+        fromDate = request.args.get('from')
+        toDate = request.args.get('to')
+        location = request.args.get('location')
+        event = request.args.get('event')
 
-    for field in fields:
-        if not request.json or not field in request.json:
-            return addHeader({"error": "Bad request", "code": "400", "message": "Field missing, or bad format!"}, 400)
+        responseJSON = emo_repo.fetchAll(location, event, fromDate, toDate)
+        return addHeader(responseJSON, 200)
 
+    if request.method == 'POST':
+        fields = ['timestamp', 'event', 'angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
 
-    JSON = request.json
-    emo_repo.create(JSON['timestamp'], JSON['event'],JSON['angry'],JSON['disgust'],JSON['fear'],
+        for field in fields:
+            if not request.json or not field in request.json:
+                return addHeader({"error": "Bad request", "code": "400", "message": "Field missing, or bad format!"}, 400)
+
+        JSON = request.json
+        emo_repo.create(JSON['timestamp'], JSON['event'],JSON['angry'],JSON['disgust'],JSON['fear'],
                 JSON['happy'], JSON['sad'], JSON['surprise'], JSON['neutral'])
-
-    return addHeader(JSON, 200)
-
-# return emotion for a given event and location
-@app.route("/emotion", methods=['GET'])
-def getEmotionForEventAndLocation():
-
-    fromDate = request.args.get('from')
-    toDate = request.args.get('to')
-    location = request.args.get('location')
-    event = request.args.get('event')
-
-    responseJSON = emo_repo.fetchAll(location, event, fromDate, toDate)
-
-    return addHeader(responseJSON, 200)
+        return addHeader(JSON, 200)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=4444)
+    app.run(host='0.0.0.0', port=443)

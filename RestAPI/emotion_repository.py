@@ -19,19 +19,23 @@ def create(timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral
 #def JSONifyCursor(cursor):
 
 def fetchAll(location, event, fromEpoch, toEpoch):
-    queryString = 'SELECT timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral FROM stuffToPlot WHERE '#?<timestamp '
+    queryString = 'SELECT timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral FROM stuffToPlot WHERE 1'
     params = []
 
-    if location is not None:
-        queryString += " AND location=? "
-        params += [location]
-
     if event is not None:
-        queryString += " event=? "
+        queryString += " AND event=?"
         params += [event]
 
     if location is not None:
-        queryString += " AND ?>timestamp "
+        queryString += " AND location=?"
+        params += [location]
+
+    if fromEpoch is not None:
+        queryString += " AND ?<timestamp"
+        params += [toEpoch]
+
+    if toEpoch is not None:
+        queryString += " AND ?>timestamp"
         params += [toEpoch]
 
     cursor = db.cursor()

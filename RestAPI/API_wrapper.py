@@ -1,11 +1,16 @@
+from urllib import urlencode
 import requests
 import json
 
-PORT = '4444'
-URL = 'http://46.101.25.210'
+PORT = '443'
+SERVER_URL = 'http://46.101.25.210'
+LOCALHOST = 'http://0.0.0.0'
+
+URL = SERVER_URL
+
 loc_endpoint = URL + ':' + PORT + '/location'
 event_endpoint = URL + ':' + PORT + '/event'
-emotion_endpoint = URL + ':' + PORT + '/'
+emotion_endpoint = URL + ':' + PORT + '/emotion'
 headers = {'content-type': 'application/json'}
 
 # Should return 200 if it was successful
@@ -51,12 +56,26 @@ def createEmotion(emotion):
     res = requests.post(emotion_endpoint, json.dumps(emotion, ensure_ascii=False), headers=headers)
     return res.status_code
 
+# returns list of emotions
+def getEmotion(location, event, fromDate, toDate):
+    params = {}
+    if location is not None:
+        params['location'] =  location
+    if event is not None:
+        params['event'] =  event
+    if fromDate is not None:
+        params['fromDate'] = fromDate
+    if toDate is not None:
+        params['toDate'] =  toDate
+
+    return requests.get(emotion_endpoint, headers=headers, params=urlencode(params)).json()
+
 if __name__ == "__main__":
     # example usage:
     test_emotion = {
     "angry": 9.0,
     "disgust": 5.0,
-    "event": "TEST",
+    "event": "TEST2",
     "fear": 0.08635248243808746,
     "happy": 0.0003344165743328631,
     "neutral": 0.82928866147995,
@@ -67,6 +86,7 @@ if __name__ == "__main__":
 
     print(getLocation())
     print(getEvent())
-    print(createEvent({'name': 'TEST1'}))
-    print(createLocation({'name':'TEST1'}))
-    print (createEmotion(test_emotion))
+    #print(createEvent({'name': 'TEST1'}))
+    #print(createLocation({'name':'TEST1'}))
+    #print (createEmotion(test_emotion))
+    print(getEmotion(None,test_emotion['event'],None,None))
