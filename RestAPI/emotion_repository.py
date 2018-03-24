@@ -2,24 +2,32 @@
 import sqlite3, json
 
 DB_PATH = '../db/'
-DB_NAME = 'sample.db'
+DB_NAME = 'IRIE.db'
+TABLE_NAME = 'emotion'
 
 db = sqlite3.connect(DB_PATH + DB_NAME)
 
-#TODO: add create table if not exist
+def drop():
+    cursor = db.cursor()
+    cursor.execute('''DROP TABLE ''' + TABLE_NAME)
+    db.commit()
+    return True
 
-def create(timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral):
-    params = [timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral]
-    queryString = 'INSERT INTO stuffToPlot(timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral) VALUES(?,?,?,?,?,?,?,?,?)'
+def createTable():
+    queryString = 'CREATE TABLE IF NOT EXISTS ' + TABLE_NAME +' (timestamp TEXT, location TEXT, event TEXT, angry TEXT, disgust TEXT, fear TEXT, happy TEXT, sad TEXT, surprise TEXT, neutral TEXT);'
+    cursor = db.cursor()
+    cursor.execute(queryString)
+    db.commit()
+
+def save(timestamp, location, event, angry, disgust, fear, happy, sad, surprise, neutral):
+    params = [timestamp, location, event, angry, disgust, fear, happy, sad, surprise, neutral]
+    queryString = 'INSERT INTO ' + TABLE_NAME +'(timestamp, location, event, angry, disgust, fear, happy, sad, surprise, neutral) VALUES(?,?,?,?,?,?,?,?,?,?)'
     cursor = db.cursor()
     cursor.execute(queryString, params)
     db.commit()
 
-
-#def JSONifyCursor(cursor):
-
-def fetchAll(location, event, fromEpoch, toEpoch):
-    queryString = 'SELECT timestamp, event, angry, disgust, fear, happy, sad, surprise, neutral FROM stuffToPlot WHERE 1'
+def getByFilter(location, event, fromEpoch, toEpoch):
+    queryString = 'SELECT timestamp, location, event, angry, disgust, fear, happy, sad, surprise, neutral FROM ' + TABLE_NAME +' WHERE 1'
     params = []
 
     if event is not None:
@@ -45,5 +53,8 @@ def fetchAll(location, event, fromEpoch, toEpoch):
 
 
 if __name__ == "__main__":
-    json_output = json.dumps(fetchAll(None,'Jurassic Park',None,None))
+    #drop()
+    #createTable()
+    #save('TEST','TEST','TEST','TEST','TEST','TEST','TEST','TEST', 'TEST','TEST')
+    json_output = json.dumps(getByFilter(None,'TEST',None,None))
     print(json_output)

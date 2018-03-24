@@ -1,16 +1,20 @@
+#!/usr/bin/env python
 from urllib import urlencode
 import requests
 import json
 
-PORT = '443'
-SERVER_URL = 'http://46.101.25.210'
-LOCALHOST = 'http://0.0.0.0'
 
-URL = SERVER_URL
+PORT = '4444'
+UNI = '10.100.21.25'
+SERVER_URL = '46.101.25.210'
+LOCALHOST = '0.0.0.0'
+
+URL = 'http://' + UNI
 
 loc_endpoint = URL + ':' + PORT + '/location'
 event_endpoint = URL + ':' + PORT + '/event'
 emotion_endpoint = URL + ':' + PORT + '/emotion'
+
 headers = {'content-type': 'application/json'}
 
 # Should return 200 if it was successful
@@ -34,7 +38,7 @@ def createLocation(location):
     if 'name' in location:
         res = requests.post(loc_endpoint, json.dumps(location, ensure_ascii=False), headers=headers)
     else:
-        raise ValueError('ERROR : JSON does not contain id or name fields!')
+        raise ValueError('ERROR : JSON does not contain id or name field!')
     return res.status_code
 
 # if id given returns single location as dict, otherwise locations as list of dicts
@@ -47,11 +51,11 @@ def getLocation(id = None):
 
 # Should return 200 if it was successful
 def createEmotion(emotion):
-    fields = ['timestamp', 'event', 'angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+    fields = ['timestamp', 'location', 'event', 'angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
 
     for field in fields:
         if not emotion or not field in emotion:
-            raise ValueError('ERROR : JSON does not contain the right fields!')
+            raise ValueError('ERROR : JSON does not contain id or name field!')
 
     res = requests.post(emotion_endpoint, json.dumps(emotion, ensure_ascii=False), headers=headers)
     return res.status_code
@@ -70,12 +74,14 @@ def getEmotion(location, event, fromDate, toDate):
 
     return requests.get(emotion_endpoint, headers=headers, params=urlencode(params)).json()
 
+
 if __name__ == "__main__":
     # example usage:
     test_emotion = {
     "angry": 9.0,
     "disgust": 5.0,
-    "event": "TEST2",
+    "event": "TEST",
+    "location" : "TEST",
     "fear": 0.08635248243808746,
     "happy": 0.0003344165743328631,
     "neutral": 0.82928866147995,
@@ -84,9 +90,9 @@ if __name__ == "__main__":
     "timestamp": "08-03-2018"
     }
 
-    print(getLocation())
-    print(getEvent())
+    #print(calendar.timegm(time.gmtime()))
+    #print(getEvent())
     #print(createEvent({'name': 'TEST1'}))
     #print(createLocation({'name':'TEST1'}))
     #print (createEmotion(test_emotion))
-    print(getEmotion(None,test_emotion['event'],None,None))
+    print(getEmotion(None,'GALAXY',None,None))
