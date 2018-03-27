@@ -94,5 +94,17 @@ def emotion():
                 JSON['happy'], JSON['sad'], JSON['surprise'], JSON['neutral'])
         return addHeaders(JSON, 200)
 
+# gets aggregated emotion data for a given event
+@app.route("/emotion/aggregated", methods=['GET'])
+def aggregated_emotion():
+    event = request.args.get('event')
+
+    if event is None:
+        return addHeaders('error": "Bad request", "code": "400", "message": "Event missing from request parameter!', 400)
+
+    responseJSON = emo_repo.getAggregated(event)
+    return addHeaders(responseJSON, 200)
+
+
 if __name__ == "__main__":
     app.run(host=HOST, port=PORT)

@@ -51,10 +51,25 @@ def getByFilter(location, event, fromEpoch, toEpoch):
     r = [dict((cursor.description[i][0], value) for i, value in enumerate(row)) for row in cursor.fetchall()]
     return r
 
+def getAggregated(event):
+    countQuery = 'SELECT COUNT(*) FROM ' + TABLE_NAME + " WHERE event=?;"
+    cursor = db.cursor()
+    cursor.execute(countQuery, [event])
+    total = cursor.fetchone()[0]
+
+    queryString = 'SELECT SUM(angry) as angry, SUM(disgust) as disgust, SUM(fear) as fear, SUM(happy) as happy, SUM(sad) as sad, SUM(surprise) as surprise, SUM(neutral)  as neutral FROM ' + TABLE_NAME + ' WHERE event=?'
+    cursor = db.cursor()
+    cursor.execute(queryString, [event])
+    r = [dict((cursor.description[i][0], value/ total) for i, value in enumerate(row)) for row in cursor.fetchall()]
+    return  r[0]
 
 if __name__ == "__main__":
+
     #drop()
     #createTable()
-    #save('TEST','TEST','TEST','TEST','TEST','TEST','TEST','TEST', 'TEST','TEST')
-    json_output = json.dumps(getByFilter(None,'TEST',None,None))
-    print(json_output)
+    #save("TEST1","TEST1","TEST1",12,13,11,11,11, 11,11)
+    print(getAggregated("TEST"))
+    #json_output = json.dumps(getByFilter(None,'TEST',None,None))
+    #print(json_output)
+
+

@@ -9,7 +9,7 @@ UNI = '10.100.21.25'
 SERVER_URL = '46.101.25.210'
 LOCALHOST = '0.0.0.0'
 
-URL = 'http://' + UNI
+URL = 'http://' + SERVER_URL
 
 loc_endpoint = URL + ':' + PORT + '/location'
 event_endpoint = URL + ':' + PORT + '/event'
@@ -74,6 +74,13 @@ def getEmotion(location, event, fromDate, toDate):
 
     return requests.get(emotion_endpoint, headers=headers, params=urlencode(params)).json()
 
+# get aggregated emotion info for a specific event
+def getAggregated(event):
+    params = {}
+    if event is not None:
+        params['event'] = event
+
+    return requests.get(emotion_endpoint + '/aggregated', headers = headers, params= urlencode(params)).json()
 
 if __name__ == "__main__":
     # example usage:
@@ -95,4 +102,5 @@ if __name__ == "__main__":
     #print(createEvent({'name': 'TEST1'}))
     #print(createLocation({'name':'TEST1'}))
     #print (createEmotion(test_emotion))
-    print(getEmotion(None,'GALAXY',None,None))
+    print(getEmotion(None,None,None,None))
+    print(getAggregated("TEST"))
