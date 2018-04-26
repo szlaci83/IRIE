@@ -4,6 +4,17 @@
   $('.navbar-sidenav [data-toggle="tooltip"]').tooltip({
     template: '<div class="tooltip navbar-sidenav-tooltip" role="tooltip" style="pointer-events: none;"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
   })
+
+  function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     document.getElementById("mainNav").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "laszlo-codes.com", true);
+  xhttp.send();
+}
   // Toggle the side navigation
   $("#sidenavToggler").click(function(e) {
     e.preventDefault();

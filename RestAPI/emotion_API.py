@@ -8,7 +8,7 @@ import event_repository as event_repo
 app = Flask(__name__)
 CORS(app)
 
-PORT = '4444'
+PORT = 4444
 HOST = '0.0.0.0'
 JSON_ERROR = {"error": "Bad request", "code": "400", "message": "Field missing, or bad format!"}
 
@@ -79,8 +79,22 @@ def emotion():
         location = request.args.get('location')
         event = request.args.get('event')
 
-        responseJSON = emo_repo.getByFilter(location, event, fromDate, toDate)
-        return addHeaders(responseJSON, 200)
+        responseJSON = emo_repo.getByFilter(location, event)
+
+        response =[]
+        if fromDate is None:
+            fromDate = 0
+        if toDate is None:
+            toDate = 100000000000000000000
+
+        for record in responseJSON:
+            try:
+                if (int(toDate) > int(record['timestamp']) > int(fromDate)):
+                    response.append(record)
+            except(TypeError, ValueError):
+                pass
+
+        return addHeaders(response, 200)
 
     if request.method == 'POST':
         fields = ['timestamp', 'location', 'event', 'angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']

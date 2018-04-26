@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sqlite3
 
-DB_PATH = '../db/'
+DB_PATH = 'db/'
 DB_NAME = 'IRIE.db'
 TABLE_NAME = 'location'
 
@@ -50,10 +50,10 @@ def delete(id):
 
 if __name__ == "__main__":
    # drop()
-   # create()
+    create()
    # save('VUE6', 'TEST')
    # save('GALAXY6', 'TEST')
-    print(getById(1))
+    #print(getById(1))
    # print(getById(2))
    # print ('After deleting id = 1:')
    # delete(1)

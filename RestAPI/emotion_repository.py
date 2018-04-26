@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sqlite3, json
 
-DB_PATH = '../db/'
+DB_PATH = 'db/'
 DB_NAME = 'IRIE.db'
 TABLE_NAME = 'emotion'
 
@@ -26,7 +26,7 @@ def save(timestamp, location, event, angry, disgust, fear, happy, sad, surprise,
     cursor.execute(queryString, params)
     db.commit()
 
-def getByFilter(location, event, fromEpoch, toEpoch):
+def getByFilter(location, event):
     queryString = 'SELECT timestamp, location, event, angry, disgust, fear, happy, sad, surprise, neutral FROM ' + TABLE_NAME +' WHERE 1'
     params = []
 
@@ -37,14 +37,6 @@ def getByFilter(location, event, fromEpoch, toEpoch):
     if location is not None:
         queryString += " AND location=?"
         params += [location]
-
-    if fromEpoch is not None:
-        queryString += " AND ?<timestamp"
-        params += [toEpoch]
-
-    if toEpoch is not None:
-        queryString += " AND ?>timestamp"
-        params += [toEpoch]
 
     cursor = db.cursor()
     cursor.execute(queryString, params)
@@ -67,8 +59,8 @@ if __name__ == "__main__":
 
     #drop()
     #createTable()
-    #save("TEST1","TEST1","TEST1",12,13,11,11,11, 11,11)
-    print(getAggregated("TEST"))
+    save("TEST1","TEST1","TEST1",12,13,11,11,11, 11,11)
+    print(getAggregated(1))
     #json_output = json.dumps(getByFilter(None,'TEST',None,None))
     #print(json_output)
 

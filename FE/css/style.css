@@ -1,0 +1,275 @@
+/*Custom Style*/
+@import url(http://fonts.googleapis.com/css?family=Montserrat+Alternates:400,700);
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+
+
+body {
+	font-family:'Montserrat',sans-serif;
+}
+.container.nomargin {
+	margin:0;
+	padding:0;
+	width:100%;
+}
+.padding {
+	padding:80px 0;
+}
+
+.margin {
+	margin: 15px 0;
+}
+.title {
+	font-size:3em;
+	font-family:'Lato',sans-serif;
+	display:block;
+}
+hr.star {
+	margin:25px auto 30px;
+	padding:0;
+	max-width:250px;
+	border:0;
+	border-top:solid 5px;
+	text-align:center;
+}
+hr.star:after {
+	color:#fff;	
+	content:"\2605";
+	position:relative;
+	top:-.8em;
+	padding:0 .25em;
+	font-size: 2.5em;
+	color: #e67e22;
+	background: #ecf0f1;
+}
+
+
+/* Navigation Styling */
+.navbar {
+	
+}
+.navbar .navbar-brand {
+	
+}
+.navbar .navbar-brand:hover {
+
+}
+.navbar-inverse .navbar-nav>li>a {
+
+}
+.navbar-inverse .navbar-nav>.active>a,
+.navbar-inverse .navbar-nav>.active>a:hover,
+.navbar-inverse .navbar-nav>.active>a:focus,
+.navbar-inverse .navbar-nav>.active>a {
+	
+}
+
+
+/* Header Styling */
+#header {
+	background: #ecf0f1;
+	color: #34495e;
+	
+}
+#header .icon {
+	
+}
+#header .skills {
+	font-size: 2.75em
+}
+
+
+/*down arrow icon*/
+#header a:hover {
+
+}
+
+/* Work Styling */
+#work {
+	color: #1b1e21;
+	background-color: lightsteelblue;
+	
+}
+#work img {
+
+}
+#work hr.star:after {
+ color: #e67e22;
+}
+
+#work .portfolio-item {
+	border-radius: 15px;
+	height: 300px;
+	background: #eee;
+
+}
+
+/*Hover effect*/
+#work .portfolio-item img {
+	border-radius: 15px;
+	margin: 20px 0;
+	opacity: 1;
+	transition: all .3s;
+
+}
+
+#work .portfolio-item img:hover {
+	margin: 5px 0;
+	opacity: .7;
+
+}
+
+
+/* Contact Styling */
+#contact {	
+	font-family:'Lato',sans-serif;	
+}
+#contact h4 {
+	
+}
+#contact .has-success .form-control,
+#contact .has-success .control-label {
+
+}
+
+#contact hr.star {
+
+}
+
+#contact hr.star:after {
+
+}
+#contact .btn-social {
+	display:inline-block;
+	width:50px;
+	height:50px;
+	border:3px solid #34495e;
+	border-radius:100%;
+	text-align:center;
+	font-size:25px;
+	font-weight:900;
+	line-height:45px;
+}
+
+#contact .btn-social i {
+	
+}
+
+#contact .socials>li {
+
+}
+#contact .socials a {
+
+}
+#contact .socials>li:hover a {
+
+}
+#contact .socials>li:hover i {
+	
+}
+
+#contact .btn-primary {
+	
+}
+
+#contact .btn-primary:focus,
+#contact .btn-primary:hover{
+	
+}
+
+/* Footer Styling */
+footer {
+
+}
+
+footer p {
+	
+}
+
+.content-wrapper{
+	background-color: steelblue;
+}
+
+.btn-rounded {
+	background-color: #e7c3c3;
+}
+/* ==== Media Queries ====*/
+
+/* iPads (Tablets) ----------- */
+@media only screen and (min-width: 768px) and (max-width : 1024px) {
+/* Styles */
+
+.title {
+
+}
+
+.padding {
+
+}
+
+#work .portfolio-item {
+	
+}
+
+#work .portfolio-item img {
+
+}
+
+#work .portfolio-item img:hover {
+	
+
+}
+
+#contact  {
+	
+}
+
+}
+
+/* Iphone/Android (Small Devices) ----------- */
+@media only screen and (min-width : 320px) and (max-width: 767px) {
+/* Styles */
+
+.title {
+	font-size:3em;
+}
+
+.skills {
+	font-size: 1em;
+}
+
+#header .icon {
+
+}
+
+#work .portfolio-item {
+
+}
+
+#work .portfolio-item img {
+
+}
+
+#work .portfolio-item img:hover {
+
+
+}
+
+#contact .socials>li {
+
+}
+
+.margin.no_margin_mobile {
+
+}
+
+
+.contact-form button.pull-right {
+	
+}
+
+.social-media {
+
+}
+
+
+}

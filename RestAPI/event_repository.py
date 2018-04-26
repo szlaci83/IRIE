@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sqlite3
 
-DB_PATH = '../db/'
+DB_PATH = 'db/'
 DB_NAME = 'IRIE.db'
 TABLE_NAME = 'event'
 
@@ -82,7 +82,7 @@ def init():
 if __name__ == "__main__":
     #drop()
     #create()
-    init()
+    #init()
 
     print(getById(1))
     #print(getById(2))
