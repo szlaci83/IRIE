@@ -99,11 +99,11 @@ UNI_HOST = 'http://10.4.175.99'
 PORT = ':4444'
 LOCATIONENDPOINT = '/location'
 EVENTENDPOINT = '/event'
-DETAILEDENDPOINT = '/emotion?event=4&location=1&from=1524220145&to=1524240150'
+DETAILEDENDPOINT = '/emotion?location=TEST&event=Tom and Jerry&from=1522168131&to=1522168200'
 
 LOC_URL = SERVER_HOST + PORT + LOCATIONENDPOINT
 EVENT_URL = SERVER_HOST + PORT + EVENTENDPOINT
-DET_URL = "localhost" + PORT + DETAILEDENDPOINT
+DET_URL = SERVER_HOST + PORT + DETAILEDENDPOINT
 
 $( document ).ready(function() {
 
@@ -178,8 +178,84 @@ $( document ).ready(function() {
         console.log( "calling: ", DET_URL );
         $.ajax(event_settings).done(function (response) {
             console.log("EMOTIONS: ", response)
+            var time = []
+            var angry  =[]
+            var disgust =[]
+            var fear = []
+            var happy = []
+            var sad = []
+            var surprise = []
+            var neutral=[]
+          for(var res in response){
+              res = response [res]
+              var utcSeconds = res['timestamp'];
+              var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+              d.setUTCMilliseconds(utcSeconds);
+              console.log(d)
+              time.push(d)
+              angry.push(res['angry'])
+              disgust.push(res['disgust'])
+              fear.push(res['fear'])
+              happy.push(res['happy'])
+              sad.push(res['sad'])
+              surprise.push(res['surprise'])
+              neutral.push(response['neutral'])
+          }
+
+
+
+            // -- Bar Chart Example
+            var ctx = document.getElementById("myLineChart");
+            var myLineChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: time,
+                    datasets: [{
+                        label: "Revenue",
+                        backgroundColor: "rgba(2,117,216,1)",
+                        borderColor: "rgba(2,117,216,1)",
+                        data: happy,
+                    }],
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            time: {
+                                unit: 'second'
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                maxTicksLimit: 6
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: 1,
+                                maxTicksLimit: 5
+                            },
+                            gridLines: {
+                                display: true
+                            }
+                        }],
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
 
         })
+
+
+
+});
+
+$("#days li a").click(function(){
+    $("#daysDropdownMenu:first-child").text($(this).text());
+    $("#daysDropdownMenu:first-child").val($(this).text());
 });
 //
 //
